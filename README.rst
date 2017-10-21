@@ -2,7 +2,7 @@ envbox
 ======
 https://github.com/idlesign/envbox
 
-|release| |lic|
+|release| |lic| |ci| |coverage|
 
 .. |release| image:: https://img.shields.io/pypi/v/envbox.svg
     :target: https://pypi.python.org/pypi/envbox
