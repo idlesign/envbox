@@ -50,9 +50,32 @@ def test_set_get():
 def test_set_get_many():
 
     env = Development()
-    env.setmany('ENVBOX_', {'one': 1, 'TWO': 2})
+    env.setmany({'one': 1, 'TWO': 2}, prefix='ENVBOX_')
 
     many = env.getmany('ENVBOX_')
 
     assert many['one'] == '1'
     assert many['TWO'] == '2'
+
+
+def test_drop():
+    env = Development()
+    env.setmany({'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5})
+
+    assert 'a' in env
+
+    env.drop('a')
+
+    assert 'a' not in env
+
+    del env['b']
+
+    assert 'b' not in env
+
+    del env.c
+
+    assert 'c' not in env
+
+    env.dropmany(['d', 'e'])
+    assert 'd' not in env
+    assert 'e' not in env

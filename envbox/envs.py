@@ -20,11 +20,20 @@ class EnvironmentType(object):
     name = 'dummy'
 
     is_development = False
-    is_testing = False
-    is_staging = False
-    is_production = False
+    """Indicates whether this environment is development."""
 
-    def getmany(self, prefix):
+    is_testing = False
+    """Indicates whether this environment is testing."""
+
+    is_staging = False
+    """Indicates whether this environment is staging."""
+
+    is_production = False
+    """Indicates whether this environment is production."""
+
+    env = os.environ
+
+    def getmany(self, prefix=''):
         """Returns a dictionary of values for keys the given prefix.
 
         :param str|unicode prefix:
@@ -34,25 +43,38 @@ class EnvironmentType(object):
         """
         result = OrderedDict()
 
-        for key, val in os.environ.items():
+        for key, val in self.env.items():
             if key.startswith(prefix):
                 result[key.replace(prefix, '', 1)] = val
 
         return result
 
-    def setmany(self, prefix, key_val):
-        """Sets values
-
-        :param str|unicode prefix:
+    def setmany(self, key_val, prefix=''):
+        """Sets values in batch mode.
 
         :param dict key_val:
 
+        :param str|unicode prefix:
+
         """
         key_val = key_val or {}
-        env = os.environ
+        env = self.env
 
         for key, val in key_val.items():
             env[prefix + key] = '%s' % val
+
+    def dropmany(self, keys, prefix=''):
+        """Drops keys in batch mode.
+
+        :param Iterable keys:
+
+        :param str|unicode prefix:
+
+        """
+        env = self.env
+
+        for key in keys:
+            del env[prefix + key]
 
     def get(self, key, default=None):
         """Get environment variable value.
@@ -62,7 +84,7 @@ class EnvironmentType(object):
         :param default: Default value to return if no value found.
 
         """
-        result = os.environ.get(key, default)
+        result = self.env.get(key, default)
 
         return result
 
@@ -74,10 +96,18 @@ class EnvironmentType(object):
         :param value:
 
         """
-        os.environ[key] = '%s' % value
+        self.env[key] = '%s' % value
 
+    def drop(self, key):
+        """Removes key from environment."""
+        del self.env[key]
+
+    __delattr__ = __delitem__ = drop
     __getattr__ = __getitem__ = get
     __setattr__ = __setitem__ = set
+
+    def __contains__(self, key):
+        return key in self.env
 
     def __str__(self):
         return self.name
