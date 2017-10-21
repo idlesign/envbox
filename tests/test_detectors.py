@@ -1,8 +1,7 @@
-import os
-
 import pytest
 
-from envbox.detectors import get_detector, Environ
+from envbox import get_environment
+from envbox.detectors import get_detector, Environ, File
 
 
 def test_get_detector():
@@ -13,3 +12,12 @@ def test_get_detector():
     with pytest.raises(KeyError):
         get_detector('bogus')
 
+
+def test_file_detector():
+    detector = get_detector('file')
+
+    assert detector is File
+
+    env = get_environment(detectors_opts={'file': {'source': 'myenvironment'}})
+
+    assert env.is_testing

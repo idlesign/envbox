@@ -42,6 +42,10 @@ Code sample
 
     # Detect current environment type
     # and get its object.
+
+    # Default detection sources:
+    # 1. ``PYTHON_ENV`` env variable
+    # 2. ``environment`` file contents
     env = get_environment()
 
     env.name

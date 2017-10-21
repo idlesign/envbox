@@ -27,10 +27,10 @@ def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None):
         detector = get_detector(detector)
 
         detector = detector(**opts)
-        env = detector.probe()
+        env_name = detector.probe()
 
-        if env:
-            env = get_type(env)()
+        if env_name:
+            env = get_type(env_name)()
             break
 
     if env is None:
