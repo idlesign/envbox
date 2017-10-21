@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 from envbox import DEVELOPMENT
@@ -36,3 +34,14 @@ def test_set_get():
 
     env.one = 3
     assert env.one == '3'
+
+
+def test_set_get_many():
+
+    env = Development()
+    env.setmany('ENVBOX_', {'one': 1, 'TWO': 2})
+
+    many = env.getmany('ENVBOX_')
+
+    assert many['one'] == '1'
+    assert many['TWO'] == '2'

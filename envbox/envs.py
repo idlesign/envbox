@@ -24,6 +24,36 @@ class EnvironmentType(object):
     is_staging = False
     is_production = False
 
+    def getmany(self, prefix):
+        """Returns a dictionary of values for keys the given prefix.
+
+        :param str|unicode prefix:
+
+        :rtype: OrderedDict
+
+        """
+        result = OrderedDict()
+
+        for key, val in os.environ.items():
+            if key.startswith(prefix):
+                result[key.lstrip(prefix)] = val
+
+        return result
+
+    def setmany(self, prefix, key_val):
+        """Sets values
+
+        :param str|unicode prefix:
+
+        :param dict key_val:
+
+        """
+        key_val = key_val or {}
+        env = os.environ
+
+        for key, val in key_val.items():
+            env[prefix + key] = '%s' % val
+
     def get(self, key, default=None):
         """Get environment variable value.
 
