@@ -17,9 +17,6 @@ https://github.com/idlesign/envbox
     :target: https://coveralls.io/r/idlesign/envbox
 
 
-**Work in progress. Stay tuned.**
-
-
 Description
 -----------
 
