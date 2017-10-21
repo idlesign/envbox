@@ -7,7 +7,7 @@ https://github.com/idlesign/envbox
 Description
 -----------
 
-*Detect environment type and work within*
+*Detect environment type and work within.*
 
 Features
 ~~~~~~~~
