@@ -36,7 +36,7 @@ class EnvironmentType(object):
 
         for key, val in os.environ.items():
             if key.startswith(prefix):
-                result[key.lstrip(prefix)] = val
+                result[key.replace(prefix, '', 1)] = val
 
         return result
 

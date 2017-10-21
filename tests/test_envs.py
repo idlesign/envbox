@@ -1,6 +1,8 @@
 import pytest
 
-from envbox import DEVELOPMENT
+from envbox import get_environment
+from envbox import DEVELOPMENT, PRODUCTION
+from envbox.detectors import Environ
 from envbox.envs import get_type, register_type, Development
 
 
@@ -13,13 +15,22 @@ def test_get_type():
         get_type('bogus')
 
 
-def test_register_type():
+def test_register_type(monkeypatch):
 
     dev_alias = 'dev'
 
     new_type = register_type(DEVELOPMENT, dev_alias)
 
     assert new_type is Development
+
+    assert not get_environment().is_production
+
+    prod_alias = 'prod'
+    register_type(PRODUCTION, prod_alias)
+
+    monkeypatch.setenv(Environ.source, prod_alias)
+
+    assert get_environment().is_production
 
 
 def test_set_get():
