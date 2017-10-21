@@ -1,11 +1,11 @@
 from .detectors import DETECTORS, get_detector
-from .envs import EnvironmentType, DEVELOPMENT, get_type
+from .envs import Environment, DEVELOPMENT, get_type
 
 
 def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None):
     """Returns current environment type object.
 
-    :param str|EnvironmentType default: Default environment type or alias.
+    :param str|Environment default: Default environment type or alias.
 
     :param list[Detector] detectors: List of environment detectors to be used in chain.
         If not set, default builtin chain is used.
@@ -13,7 +13,7 @@ def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None):
     :param dict detectors_opts: Detectors options dictionary.
         Where keys are detector names and values are keyword arguments dicts.
 
-    :rtype: EnvironmentType
+    :rtype: Environment
     """
     detectors_opts = detectors_opts or {}
 

@@ -15,7 +15,7 @@ TYPES = OrderedDict()
 
 
 @python_2_unicode_compatible
-class EnvironmentType(object):
+class Environment(object):
 
     name = 'dummy'
 
@@ -116,28 +116,28 @@ class EnvironmentType(object):
         return '%s' % self == '%s' % other
 
 
-class Development(EnvironmentType):
+class Development(Environment):
     """Development (local) environment."""
 
     name = DEVELOPMENT
     is_development = True
 
 
-class Testing(EnvironmentType):
+class Testing(Environment):
     """Testing environment."""
 
     name = TESTING
     is_testing = True
 
 
-class Staging(EnvironmentType):
+class Staging(Environment):
     """Staging (prestable) environment."""
 
     name = STAGING
     is_staging = True
 
 
-class Production(EnvironmentType):
+class Production(Environment):
     """Production (stable) environment."""
 
     name = PRODUCTION
@@ -147,12 +147,12 @@ class Production(EnvironmentType):
 def register_type(env_type, alias=None):
     """Registers environment type.
 
-    :param str|unicode|EnvironmentType env_type: Environment type or its alias
+    :param str|unicode|Environment env_type: Environment type or its alias
         (for already registered types).
 
     :param str|unicode alias: Alias to register type under. If not set type name is used.
 
-    :rtype: EnvironmentType
+    :rtype: Environment
 
     """
     if isinstance(env_type, string_types):
@@ -169,9 +169,9 @@ def register_type(env_type, alias=None):
 def get_type(cls_or_alias):
     """Returns environment type by alias (or class itself)
 
-    :param EnvironmentType|str|unicode cls_or_alias:
+    :param Environment|str|unicode cls_or_alias:
 
-    :rtype: EnvironmentType
+    :rtype: Environment
 
     """
     if isinstance(cls_or_alias, string_types):
