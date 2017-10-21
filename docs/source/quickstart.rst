@@ -10,7 +10,11 @@ Basic usage
     from envbox import get_environment
 
     # Let's detect current environment type and get its object.
-    # * See and use arguments to impose restrictions upon detection system.
+    # * See and use `get_environment` function arguments to impose restrictions upon detection system.
+
+    # Default detection sources:
+    # 1. ``PYTHON_ENV`` env variable
+    # 2. ``environment`` file contents
     env = get_environment()
 
     env.name
@@ -25,6 +29,11 @@ Basic usage
 
     env.getmany('PYTHON')
     # {'UNBUFFERED': '1', 'IOENCODING': 'UTF-8', 'PATH': ...}
+
+    # We can also try to cast env values into Python natives.
+    env.getmany_casted('PYTHON')
+    # Note that `UNBUFFERED` is int now.
+    # {'UNBUFFERED': 1, 'IOENCODING': 'UTF-8', 'PATH': ...}
 
 
 Environment type aliases

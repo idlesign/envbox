@@ -1,10 +1,10 @@
 from __future__ import unicode_literals, absolute_import
-import os
 
+import os
+from functools import partial
 from collections import OrderedDict
 
-from .utils import string_types, python_2_unicode_compatible
-
+from .utils import string_types, python_2_unicode_compatible, cast_type
 
 DEVELOPMENT = 'development'
 TESTING = 'testing'
@@ -33,10 +33,12 @@ class Environment(object):
 
     env = os.environ
 
-    def getmany(self, prefix=''):
+    def getmany(self, prefix='', type_cast=False):
         """Returns a dictionary of values for keys the given prefix.
 
         :param str|unicode prefix:
+
+        :param bool type_cast: Try to cast value into Python native type.
 
         :rtype: OrderedDict
 
@@ -45,9 +47,17 @@ class Environment(object):
 
         for key, val in self.env.items():
             if key.startswith(prefix):
+
+                if type_cast:
+                    val = cast_type(val)
+
                 result[key.replace(prefix, '', 1)] = val
 
         return result
+
+    def getmany_casted(self, prefix=''):
+        """The same as `getnamy` but tries to cast values into Python natives."""
+        return self.getmany(prefix=prefix, type_cast=True)
 
     def setmany(self, key_val, prefix=''):
         """Sets values in batch mode.
@@ -76,17 +86,26 @@ class Environment(object):
         for key in keys:
             del env[prefix + key]
 
-    def get(self, key, default=None):
+    def get(self, key, default=None, type_cast=False):
         """Get environment variable value.
 
         :param str|unicode key:
 
         :param default: Default value to return if no value found.
 
+        :param bool type_cast: Try to cast value into Python native type.
+
         """
         result = self.env.get(key, default)
 
+        if result is not default and type_cast:
+            result = cast_type(result)
+
         return result
+
+    def get_casted(self, key, default=None):
+        """The same as `get` but tries to cast values into Python natives."""
+        return self.get(key, default, type_cast=True)
 
     def set(self, key, value):
         """Set environment variable.

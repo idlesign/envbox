@@ -30,7 +30,7 @@ Features
 ~~~~~~~~
 
 * Environment type detection (extendable system);
-* Convenient ``os.environ`` proxying;
+* Convenient ``os.environ`` proxying (with optional values casting into Python natives);
 * CLI for environment type probing.
 
 

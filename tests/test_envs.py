@@ -42,9 +42,12 @@ def test_set_get():
 
     env['one'] = 2
     assert env.get('one') == '2'
+    assert env.get_casted('one') == 2
 
     env.one = 3
     assert env.one == '3'
+
+    print(dict(env.getmany_casted('PYTHON')))
 
 
 def test_set_get_many():
@@ -56,6 +59,11 @@ def test_set_get_many():
 
     assert many['one'] == '1'
     assert many['TWO'] == '2'
+
+    many = env.getmany_casted('ENVBOX_')
+
+    assert many['one'] == 1
+    assert many['TWO'] == 2
 
 
 def test_drop():
