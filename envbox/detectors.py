@@ -41,9 +41,9 @@ class File(Detector):
 
         try:
             with open(self.source) as f:
-                env_name = f.read()
+                env_name = f.read().strip()
 
-        except OSError:
+        except IOError:
             pass
 
         return env_name
