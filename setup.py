@@ -20,7 +20,7 @@ setup(
     version='.'.join(map(str, VERSION)),
     url='https://github.com/idlesign/envbox',
 
-    description='Detect environment type and work within',
+    description='Detect environment type and work within.',
     long_description=get_readme(),
     license='BSD 3-Clause License',
 
@@ -33,6 +33,9 @@ setup(
 
     install_requires=[],
     setup_requires=[] + (['pytest-runner'] if 'test' in sys.argv else []) + [],
+    extras_require={
+        'cli': ['click>=2.0'],
+    },
 
     entry_points={
         'console_scripts': ['envbox = envbox.cli:main'],

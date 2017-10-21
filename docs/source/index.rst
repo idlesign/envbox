@@ -13,7 +13,8 @@ Features
 ~~~~~~~~
 
 * Environment type detection (extendable system);
-* Convenient ``os.environ`` proxying.
+* Convenient ``os.environ`` proxying;
+* CLI for environment type probing.
 
 
 
@@ -21,6 +22,7 @@ Requirements
 ------------
 
 1. Python 2.7+, 3.3+
+2. ``click`` package (optional, for CLI)
 
 
 

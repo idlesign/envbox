@@ -30,7 +30,8 @@ Features
 ~~~~~~~~
 
 * Environment type detection (extendable system);
-* Convenient ``os.environ`` proxying.
+* Convenient ``os.environ`` proxying;
+* CLI for environment type probing.
 
 
 Code sample
@@ -62,10 +63,19 @@ Code sample
     # {'UNBUFFERED': '1', 'IOENCODING': 'UTF-8', 'PATH': ...}
 
 
+CLI
+~~~
+
+.. code-block:: bash
+
+    $ envbox probe
+    # >> Detected environment type: development (Development)
+
+
+**Note:** ``envbox`` CLI requires ``click`` package available.
+
 
 Documentation
 -------------
 
 http://envbox.readthedocs.org/
-
-
