@@ -2,7 +2,7 @@ from __future__ import unicode_literals, absolute_import
 
 from collections import OrderedDict
 
-from .utils import string_types, PY3
+from .utils import string_types, PY3, python_2_unicode_compatible
 
 
 DEVELOPMENT = 'development'
@@ -13,6 +13,7 @@ PRODUCTION = 'production'
 TYPES = OrderedDict()
 
 
+@python_2_unicode_compatible
 class EnvironmentType(object):
 
     name = 'dummy'
@@ -23,12 +24,7 @@ class EnvironmentType(object):
     is_production = False
 
     def __str__(self):
-        name = self.name
-
-        if not PY3:
-            name = name.encode('utf-8')
-
-        return name
+        return self.name
 
     def __eq__(self, other):
         return '%s' % self == '%s' % other
@@ -70,6 +66,8 @@ def register_type(env_type, alias=None):
 
     :param str|unicode alias: Alias to register type under. If not set type name is used.
 
+    :rtype: EnvironmentType
+
     """
     if isinstance(env_type, string_types):
         env_type = TYPES[env_type]
@@ -78,6 +76,8 @@ def register_type(env_type, alias=None):
         alias = env_type.name
 
     TYPES[alias] = env_type
+
+    return env_type
 
 
 def get_type(cls_or_alias):
