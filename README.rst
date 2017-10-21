@@ -25,7 +25,37 @@ Description
 
 *Detect environment type and work within*
 
-Here will be an introductory description.
+
+Features
+~~~~~~~~
+
+* Environment type detection (extendable system);
+* Convenient ``os.environ`` proxying.
+
+
+Code sample
+~~~~~~~~~~~
+
+.. code-block:: python
+
+    from envbox import get_environment
+
+    # Detect current environment type
+    # and get its object.
+    env = get_environment()
+
+    env.name
+    # >> development
+
+    env.is_production
+    # >> False
+
+    env.get('HOME')
+    # The same as env['HOME'] and env.HOME
+    # >> /home/idle/
+
+    env.getmany('PYTHON')
+    # {'UNBUFFERED': '1', 'IOENCODING': 'UTF-8', 'PATH': ...}
 
 
 

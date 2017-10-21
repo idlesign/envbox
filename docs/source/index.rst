@@ -9,7 +9,11 @@ Description
 
 *Detect environment type and work within*
 
-Here will be an introductory description.
+Features
+~~~~~~~~
+
+* Environment type detection (extendable system);
+* Convenient ``os.environ`` proxying.
 
 
 
@@ -24,8 +28,9 @@ Table of Contents
 -----------------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     quickstart
+    api
 
 
