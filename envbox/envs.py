@@ -1,8 +1,9 @@
 from __future__ import unicode_literals, absolute_import
+import os
 
 from collections import OrderedDict
 
-from .utils import string_types, PY3, python_2_unicode_compatible
+from .utils import string_types, python_2_unicode_compatible
 
 
 DEVELOPMENT = 'development'
@@ -22,6 +23,31 @@ class EnvironmentType(object):
     is_testing = False
     is_staging = False
     is_production = False
+
+    def get(self, key, default=None):
+        """Get environment variable value.
+
+        :param str|unicode key:
+
+        :param default: Default value to return if no value found.
+
+        """
+        result = os.environ.get(key, default)
+
+        return result
+
+    def set(self, key, value):
+        """Set environment variable.
+
+        :param str|unicode key:
+
+        :param value:
+
+        """
+        os.environ[key] = '%s' % value
+
+    __getattr__ = __getitem__ = get
+    __setattr__ = __setitem__ = set
 
     def __str__(self):
         return self.name

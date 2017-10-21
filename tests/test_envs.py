@@ -22,3 +22,17 @@ def test_register_type():
     new_type = register_type(DEVELOPMENT, dev_alias)
 
     assert new_type is Development
+
+
+def test_set_get():
+
+    env = Development()
+    env.set('one', 1)
+
+    assert env.get('one') == '1'
+
+    env['one'] = 2
+    assert env.get('one') == '2'
+
+    env.one = 3
+    assert env.one == '3'
