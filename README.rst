@@ -61,6 +61,8 @@ Code sample
     # {'UNBUFFERED': '1', 'IOENCODING': 'UTF-8', 'PATH': ...}
 
 
+Read the docs for more examples.
+
 CLI
 ~~~
 
