@@ -56,10 +56,10 @@ Automatic submodule import
 --------------------------
 
 **envbox** features ``import_by_environment()`` function which automatically imports symbols of a submodule
-of a package for given (or detected) environment into globals of an entry-point submodule.
+of a package for the given (or detected) environment into globals of an entry-point submodule.
 
 .. note:: This could be useful not only for Django-projects where submodule-based settings definition is rather usual
-  but also for varius other cases.
+  but also for various other cases.
 
 
 Example::
