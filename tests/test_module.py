@@ -26,7 +26,7 @@ def test_get_environment():
 
 def test_autoimport(monkeypatch):
 
-    with pytest.raises(SystemError):
+    with pytest.raises((ImportError, SystemError)):
         import_by_environment()
 
     def import_it(*args):
