@@ -47,8 +47,6 @@ def test_set_get():
     env.one = 3
     assert env.one == '3'
 
-    print(dict(env.getmany_casted('PYTHON')))
-
 
 def test_set_get_many():
 

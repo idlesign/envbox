@@ -2,6 +2,11 @@ envbox changelog
 ================
 
 
+Unreleased
+----------
++ Introduced 'import_by_environment()' function.
+
+
 v0.1.0
 ------
 + Basic functionality.
