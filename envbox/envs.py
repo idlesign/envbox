@@ -32,6 +32,23 @@ class Environment(object):
 
     env = os.environ
 
+    type_cast = False
+    """Whether to cast values into Python natives in .get() and .getmany() by default."""
+
+    def __init__(self, name=None, type_cast=None):
+        """
+        :param str|unicode name: Environment name.
+
+            .. note:: This will prevail over class attribute.
+
+        :param bool type_cast: Whether to cast values into Python natives in .get() and .getmany() by default.
+
+            .. note:: This will prevail over class attribute.
+
+        """
+        self.name = name or self.name
+        self.type_cast = type_cast or self.type_cast
+
     def update_from_envfiles(self):
         """Updates environment variables (if not already set) using data from .env files.
 
@@ -58,7 +75,7 @@ class Environment(object):
 
         self.setmany(env_vars, overwrite=False)
 
-    def getmany(self, prefix='', type_cast=False):
+    def getmany(self, prefix='', type_cast=None):
         """Returns a dictionary of values for keys the given prefix.
 
         :param str|unicode prefix:
@@ -68,6 +85,9 @@ class Environment(object):
         :rtype: OrderedDict
 
         """
+        if type_cast is None:
+            type_cast = self.type_cast
+
         result = OrderedDict()
 
         for key, val in self.env.items():
@@ -122,7 +142,7 @@ class Environment(object):
         for key in keys:
             del env[prefix + key]
 
-    def get(self, key, default=None, type_cast=False):
+    def get(self, key, default=None, type_cast=None):
         """Get environment variable value.
 
         :param str|unicode key:
@@ -133,6 +153,9 @@ class Environment(object):
 
         """
         result = self.env.get(key, default)
+
+        if type_cast is None:
+            type_cast = self.type_cast
 
         if result is not default and type_cast:
             result = cast_type(result)
@@ -167,7 +190,17 @@ class Environment(object):
 
     __delattr__ = __delitem__ = drop
     __getattr__ = __getitem__ = get
-    __setattr__ = __setitem__ = set
+    __setitem__ = set
+
+    def __setattr__(self, key, value):
+
+        try:
+            self.__getattribute__(key)
+
+            object.__setattr__(self, key, value)
+
+        except AttributeError:
+            self.set(key, value)
 
     def __contains__(self, key):
         return key in self.env

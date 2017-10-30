@@ -51,6 +51,9 @@ def test_set_get():
     env.one = 3
     assert env.one == '3'
 
+    env.type_cast = True
+    assert env.get('one') == 3
+
 
 def test_set_get_many():
 
