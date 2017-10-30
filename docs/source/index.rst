@@ -16,7 +16,7 @@ Features
 * Support for ``.env`` files;
 * Convenient ``os.environ`` proxying (with optional values casting into Python natives);
 * Automatic submodule-for-environment import tool;
-* CLI for environment type probing.
+* CLI for environment probing.
 
 
 
