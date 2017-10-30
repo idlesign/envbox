@@ -2,8 +2,8 @@ envbox changelog
 ================
 
 
-Unreleased
-----------
+v0.3.0
+------
 + CLI. Added 'show' command.
 + Added 'dev', 'test', 'stage', 'prod' aliases.
 + Environment initializer now accepts 'name' and  'type_cast' arguments.
