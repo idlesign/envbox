@@ -18,6 +18,15 @@ def probe():
     click.secho('Detected environment type: %s (%s)' % (env, env.__class__.__name__))
 
 
+@entry_point.command()
+def show():
+    """Show (print out) current environment variables."""
+    env = get_environment()
+
+    for key, val in sorted(env.env.items(), key=lambda item: item[0]):
+        click.secho('%s = %s' % (key, val))
+
+
 def main():
     entry_point(obj={})
 

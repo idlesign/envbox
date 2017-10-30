@@ -74,6 +74,11 @@ CLI
     $ envbox probe
     # >> Detected environment type: development (Development)
 
+    $ envbox show
+    # >> [...]
+    # >> SHELL = /bin/bash
+    # >> [...]
+
 
 **Note:** ``envbox`` CLI requires ``click`` package available.
 

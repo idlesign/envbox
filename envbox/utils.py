@@ -71,7 +71,7 @@ def read_envfile(fpath):
         with io.open(fpath) as f:
             lines = f.readlines()
 
-    except OSError:
+    except IOError:
         return env_vars
 
     def drop_quotes(quote_char, val):
