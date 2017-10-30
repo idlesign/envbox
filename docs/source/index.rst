@@ -13,7 +13,9 @@ Features
 ~~~~~~~~
 
 * Environment type detection (extendable system);
+* Support for ``.env`` files;
 * Convenient ``os.environ`` proxying (with optional values casting into Python natives);
+* Automatic submodule-for-environment import tool;
 * CLI for environment type probing.
 
 

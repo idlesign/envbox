@@ -3,7 +3,7 @@ from __future__ import unicode_literals, absolute_import
 import os
 from collections import OrderedDict
 
-from .utils import string_types, python_2_unicode_compatible, cast_type
+from .utils import string_types, python_2_unicode_compatible, cast_type, read_envfile
 
 DEVELOPMENT = 'development'
 TESTING = 'testing'
@@ -31,6 +31,32 @@ class Environment(object):
     """Indicates whether this environment is production."""
 
     env = os.environ
+
+    def update_from_envfiles(self):
+        """Updates environment variables (if not already set) using data from .env files.
+
+        Files used (as they read; values read later override previous values):
+            * .env
+            * .env.<env_name>
+            * .env.local
+            * .env.<env_name>.local
+
+            <env_name> - Environment name (e.g. ``production``, ``development`` etc.)
+
+        """
+        files = [
+            '.env',
+            '.env.%s' % self.name,
+            '.env.local',
+            '.env.%s.local' % self.name,
+        ]
+
+        env_vars = OrderedDict()
+
+        for fname in files:
+            env_vars.update(read_envfile(fname))
+
+        self.setmany(env_vars, overwrite=False)
 
     def getmany(self, prefix='', type_cast=False):
         """Returns a dictionary of values for keys the given prefix.

@@ -27,6 +27,7 @@ Features
 ~~~~~~~~
 
 * Environment type detection (extendable system);
+* Support for ``.env`` files;
 * Convenient ``os.environ`` proxying (with optional values casting into Python natives);
 * Automatic submodule-for-environment import tool;
 * CLI for environment type probing.
@@ -41,10 +42,12 @@ Code sample
 
     # Detect current environment type
     # and get its object.
-
+    #
     # Default detection sources:
     # 1. ``PYTHON_ENV`` env variable
     # 2. ``environment`` file contents
+    #
+    # By default this function will also try to read env variables from .env files.
     env = get_environment()
 
     env.name

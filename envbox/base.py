@@ -6,7 +6,7 @@ from .detectors import DETECTORS, get_detector
 from .envs import Environment, DEVELOPMENT, get_type
 
 
-def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None):
+def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None, use_envfiles=True):
     """Returns current environment type object.
 
     :param str|Environment|None default: Default environment type or alias.
@@ -16,6 +16,9 @@ def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None):
 
     :param dict detectors_opts: Detectors options dictionary.
         Where keys are detector names and values are keyword arguments dicts.
+
+    :param bool use_envfiles: Whether to set environment variables (if not already set)
+        using data from .env files.
 
     :rtype: Environment|None
     """
@@ -41,7 +44,8 @@ def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None):
         env = get_type(default)
 
     if env is not None:
-        env = env()
+        env = env()  # type: Environment
+        use_envfiles and env.update_from_envfiles()
 
     return env
 

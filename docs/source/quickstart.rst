@@ -11,10 +11,12 @@ Basic usage
 
     # Let's detect current environment type and get its object.
     # * See and use `get_environment` function arguments to impose restrictions upon detection system.
-
+    #
     # Default detection sources:
     # 1. ``PYTHON_ENV`` env variable
     # 2. ``environment`` file contents
+    #
+    # By default this function will also try to read env variables from .env files.
     env = get_environment()
 
     env.name

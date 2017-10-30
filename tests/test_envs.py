@@ -73,6 +73,29 @@ def test_set_get_many():
     assert many['one'] == 1
     assert many['TWO'] == 2
 
+    cwd = os.getcwd()
+    try:
+        os.chdir(os.path.join(os.path.dirname(__file__), 'testapp'))
+        env.update_from_envfiles()
+
+        envbox_tst = env.getmany('ENVBOXTST_')
+
+        assert envbox_tst['FROMLOCAL'] == 'yes'
+        assert envbox_tst['FROMDEV'] == 'true'
+        assert envbox_tst['FROMDEVLOCAL'] == '1'
+
+        assert envbox_tst['MYQUOTED1'] == 'from_local'
+        assert envbox_tst['MYQUOTED2'] == 'some "2" quoted'
+        assert envbox_tst['MYVAL1'] == 'from_dev_local'
+        assert envbox_tst['MYVAL2'] == 'enim'
+        assert envbox_tst['OTHER'] == 'mine ${ENVBOXTST_CHANGE} $VAL enim'
+
+        assert len(envbox_tst) == 8
+
+    finally:
+        env.dropmany(prefix='ENVBOXTST_')
+        os.chdir(cwd)
+
 
 def test_drop():
     env = Development()
