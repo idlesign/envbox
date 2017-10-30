@@ -1,7 +1,6 @@
 from __future__ import unicode_literals, absolute_import
 
 import os
-from functools import partial
 from collections import OrderedDict
 
 from .utils import string_types, python_2_unicode_compatible, cast_type
@@ -59,29 +58,40 @@ class Environment(object):
         """The same as `getnamy` but tries to cast values into Python natives."""
         return self.getmany(prefix=prefix, type_cast=True)
 
-    def setmany(self, key_val, prefix=''):
+    def setmany(self, key_val, prefix='', overwrite=True):
         """Sets values in batch mode.
 
         :param dict key_val:
 
         :param str|unicode prefix:
 
+        :param bool overwrite: Whether to overwrite value if it's already set.
+
         """
         key_val = key_val or {}
         env = self.env
 
         for key, val in key_val.items():
-            env[prefix + key] = '%s' % val
+            key = prefix + key
+            val = '%s' % val
 
-    def dropmany(self, keys, prefix=''):
+            if overwrite:
+                env[key] = val
+
+            else:
+                env.setdefault(key, val)
+
+    def dropmany(self, keys=None, prefix=''):
         """Drops keys in batch mode.
 
-        :param Iterable keys:
+        :param Iterable keys: Keys to drop. If not set current env keys will be used.
 
         :param str|unicode prefix:
 
         """
         env = self.env
+
+        keys = keys or [key.replace(prefix, '', 1) for key in env.keys() if key.startswith(prefix)]
 
         for key in keys:
             del env[prefix + key]
@@ -107,15 +117,23 @@ class Environment(object):
         """The same as `get` but tries to cast values into Python natives."""
         return self.get(key, default, type_cast=True)
 
-    def set(self, key, value):
+    def set(self, key, value, overwrite=True):
         """Set environment variable.
 
         :param str|unicode key:
 
         :param value:
 
+        :param bool overwrite: Whether to overwrite value if it's already set.
+
         """
-        self.env[key] = '%s' % value
+        value = '%s' % value
+
+        if overwrite:
+            self.env[key] = value
+
+        else:
+            self.env.setdefault(key, value)
 
     def drop(self, key):
         """Removes key from environment."""

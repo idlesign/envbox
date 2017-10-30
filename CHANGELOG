@@ -2,6 +2,11 @@ envbox changelog
 ================
 
 
+Unreleased
+----------
++ set() and setmany() now accept 'overwrite' argument.
+
+
 v0.2.0
 ------
 + Introduced 'import_by_environment()' function.

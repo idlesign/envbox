@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from envbox import get_environment
@@ -40,6 +41,9 @@ def test_set_get():
 
     assert env.get('one') == '1'
 
+    env.set('one', 10, overwrite=False)
+    assert env.get('one') == '1'
+
     env['one'] = 2
     assert env.get('one') == '2'
     assert env.get_casted('one') == 2
@@ -51,8 +55,14 @@ def test_set_get():
 def test_set_get_many():
 
     env = Development()
-    env.setmany({'one': 1, 'TWO': 2}, prefix='ENVBOX_')
 
+    env.setmany({'one': 1, 'TWO': 2}, prefix='ENVBOX_')
+    many = env.getmany('ENVBOX_')
+
+    assert many['one'] == '1'
+    assert many['TWO'] == '2'
+
+    env.setmany({'one': 1, 'TWO': 2}, prefix='ENVBOX_', overwrite=False)
     many = env.getmany('ENVBOX_')
 
     assert many['one'] == '1'
