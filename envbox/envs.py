@@ -17,6 +17,13 @@ TYPES = OrderedDict()
 class Environment(object):
 
     name = 'dummy'
+    """Name this environment type is known as."""
+
+    aliases = []
+    """Aliases this environment type is known as."""
+
+    type_cast = False
+    """Whether to cast values into Python natives in .get() and .getmany() by default."""
 
     is_development = False
     """Indicates whether this environment is development."""
@@ -31,9 +38,6 @@ class Environment(object):
     """Indicates whether this environment is production."""
 
     env = os.environ
-
-    type_cast = False
-    """Whether to cast values into Python natives in .get() and .getmany() by default."""
 
     def __init__(self, name=None, type_cast=None):
         """
@@ -61,13 +65,18 @@ class Environment(object):
             <env_name> - Environment name (e.g. ``production``, ``development`` etc.)
 
         """
-        files = [
-            '.env',
-            '.env.%s' % self.name,
-            '.env.local',
-            '.env.%s.local' % self.name,
-        ]
+        name_candidates = [self.name]
+        name_candidates.extend(self.aliases)
 
+        def contribute_candidates(tpl):
+            # This will handle env type aliases.
+            for candidate in name_candidates:
+                files.append(tpl % candidate)
+
+        files = ['.env']
+        contribute_candidates('.env.%s')
+        files.append('.env.local')
+        contribute_candidates('.env.%s.local')
         env_vars = OrderedDict()
 
         for fname in files:
@@ -216,6 +225,7 @@ class Development(Environment):
     """Development (local) environment."""
 
     name = DEVELOPMENT
+    aliases = ['dev']
     is_development = True
 
 
@@ -223,6 +233,7 @@ class Testing(Environment):
     """Testing environment."""
 
     name = TESTING
+    aliases = ['test']
     is_testing = True
 
 
@@ -230,6 +241,7 @@ class Staging(Environment):
     """Staging (prestable) environment."""
 
     name = STAGING
+    aliases = ['stage']
     is_staging = True
 
 
@@ -237,6 +249,7 @@ class Production(Environment):
     """Production (stable) environment."""
 
     name = PRODUCTION
+    aliases = ['prod']
     is_production = True
 
 
@@ -258,6 +271,9 @@ def register_type(env_type, alias=None):
         alias = env_type.name
 
     TYPES[alias] = env_type
+
+    for alias in env_type.aliases:
+        TYPES[alias] = env_type
 
     return env_type
 
