@@ -2,6 +2,11 @@ envbox changelog
 ================
 
 
+Unreleased
+----------
+* Dropped support for py<3.4.
+
+
 v0.4.0
 ------
 + Added per-thread settings container SettingsBase.
