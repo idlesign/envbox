@@ -24,7 +24,7 @@ Features
 Requirements
 ------------
 
-1. Python 2.7+, 3.3+
+1. Python 2.7+, 3.4+
 2. ``click`` package (optional, for CLI)
 
 
