@@ -38,6 +38,32 @@ Basic usage
     # {'UNBUFFERED': 1, 'IOENCODING': 'UTF-8', 'PATH': ...}
 
 
+Settings container
+------------------
+
+If you need a per-thread settings storage you can do the following:
+
+.. code-block:: python
+
+    # Somewhere in your setting module declare settings:
+    class _Settings(SettingsBase):
+
+        ONE = 1
+        SOME = 'two'
+        ANOTHER = True
+
+    Settings = _Settings()
+
+
+    # Now access those settings from other modules(s).
+    if Settings.ANOTHER:
+        Settings.SOME = 'three'
+
+
+Accessing any setting which was not set in the session, will lead to appropriate environment variable probing.
+
+
+
 Environment type aliases
 ------------------------
 

@@ -24,3 +24,11 @@ Environment detection
 .. automodule:: envbox.detectors
    :members:
    :inherited-members:
+
+
+Settings container
+------------------
+
+.. automodule:: envbox.settings
+   :members:
+   :inherited-members:

@@ -23,6 +23,16 @@ def python_2_unicode_compatible(klass):  # pragma: nocover
     return klass
 
 
+def add_metaclass(metaclass):
+    """Class decorator for creating a class with a metaclass."""
+    def wrapper(cls):
+        orig_vars = cls.__dict__.copy()
+        orig_vars.pop('__dict__', None)
+        orig_vars.pop('__weakref__', None)
+        return metaclass(cls.__name__, cls.__bases__, orig_vars)
+    return wrapper
+
+
 def cast_type(value):
     """Try to cast value into Python native type.
 

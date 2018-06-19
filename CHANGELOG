@@ -2,6 +2,11 @@ envbox changelog
 ================
 
 
+Unreleased
+----------
++ Added per-thread settings container SettingsBase.
+
+
 v0.3.0
 ------
 + CLI. Added 'show' command.
