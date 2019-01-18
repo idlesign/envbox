@@ -4,6 +4,7 @@ envbox changelog
 
 Unreleased
 ----------
+! Dropped QA for Python 3.4.
 * Dropped support for py<3.4.
 
 
