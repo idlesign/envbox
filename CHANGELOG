@@ -6,6 +6,7 @@ Unreleased
 ----------
 ! Dropped QA for Python 3.4.
 * Dropped support for py<3.4.
+* No functional changes. Celebrating 1.0.0.
 
 
 v0.4.0
