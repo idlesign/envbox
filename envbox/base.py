@@ -1,3 +1,4 @@
+import sys
 from os.path import dirname, basename
 from inspect import currentframe
 from importlib import import_module
@@ -50,7 +51,7 @@ def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None, us
     return env
 
 
-def import_by_environment(environment=None, module_name_pattern='settings_%s', silent=False):
+def import_by_environment(environment=None, module_name_pattern='settings_%s', silent=False, package_name=None):
     """Automatically imports symbols of a submodule of a package for given
     (or detected) environment into globals of an entry-point submodule.
 
@@ -77,6 +78,13 @@ def import_by_environment(environment=None, module_name_pattern='settings_%s', s
 
     :param bool silent: If ``True`` no import error (if any) will be raised.
 
+    :param str package_name: Name of the package holding settings file.
+        We'll try to guess it if not provided.
+
+        E.g.:
+            * someproject.settings
+            * someproject.inner.settings
+
     :rtype: Environment|None
 
     :returns: ``Environment`` object if module is imported or ``None``.
@@ -87,7 +95,14 @@ def import_by_environment(environment=None, module_name_pattern='settings_%s', s
     module_name_pattern = '.' + module_name_pattern
 
     settings_module = currentframe().f_back
-    package_name = basename(dirname(settings_module.f_code.co_filename))
+    filedir = dirname(settings_module.f_code.co_filename)
+
+    if package_name is None:
+        package_name = basename(filedir)
+
+        if package_name not in sys.modules.keys():
+            # Last try to deduce maybe 'someproject.settings'.
+            package_name = basename(dirname(filedir)) + '.' + package_name
 
     result = None
 
