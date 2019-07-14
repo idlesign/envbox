@@ -2,8 +2,8 @@ envbox changelog
 ================
 
 
-Unreleased
-----------
+v1.1.0
+------
 ! Dropped QA for Python 2.
 + Improved 'import_by_environment' no accepts optional 'package_name' argument.
 

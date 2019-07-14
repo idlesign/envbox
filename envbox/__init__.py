@@ -3,4 +3,4 @@ from .envs import DEVELOPMENT, TESTING, STAGING, PRODUCTION, Environment
 from .settings import SettingsBase
 from .utils import read_envfile
 
-VERSION = (1, 0, 0)
+VERSION = (1, 1, 0)
