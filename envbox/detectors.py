@@ -1,4 +1,5 @@
 from os import environ
+from typing import Union, Type, Optional
 
 DETECTORS = {}
 
@@ -11,8 +12,11 @@ class Detector:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
-    def probe(self):  # pragma: nocover
+    def probe(self) -> Optional[str]:  # pragma: nocover
         raise NotImplementedError
+
+
+TypeDetectorArg = Union[Detector, str]
 
 
 class Environ(Detector):
@@ -21,7 +25,7 @@ class Environ(Detector):
     name = 'environ'
     source = 'PYTHON_ENV'
 
-    def probe(self):
+    def probe(self) -> Optional[str]:
         return environ.get(self.source)
 
 
@@ -31,7 +35,7 @@ class File(Detector):
     name = 'file'
     source = 'environment'
 
-    def probe(self):
+    def probe(self) -> Optional[str]:
         env_name = None
 
         try:
@@ -44,21 +48,19 @@ class File(Detector):
         return env_name
 
 
-def register_detector(detector):
+def register_detector(detector: Type[Detector]):
     """Registers an environment detector.
 
-    :param Detector detector:
+    :param detector:
 
     """
     DETECTORS[detector.name] = detector
 
 
-def get_detector(cls_or_name):
+def get_detector(cls_or_name: TypeDetectorArg) -> Type[Detector]:
     """Returns detector by alias (or class itself)
 
-    :param Detector|str|unicode cls_or_name:
-
-    :rtype: Detector
+    :param cls_or_name:
 
     """
     if isinstance(cls_or_name, str):

@@ -1,4 +1,5 @@
 from threading import local
+from typing import Optional
 
 from .base import get_environment
 
@@ -29,11 +30,8 @@ class _Setting:
         self.name = name
         self.default = default
 
-    def __get__(self, instance, owner):
-        """
-        :param SettingsBase instance:
-        :param owner:
-        """
+    def __get__(self, instance: 'SettingsBase', owner):
+
         try:
             return _LOCALS.envbox_settings[self.name]
 
@@ -77,11 +75,10 @@ class SettingsBase(metaclass=_SettingsMeta):
 
     """
 
-    def get_environment(self):
+    def get_environment(self) -> Optional['Environment']:
         """Return current environment.
 
         This could be customized by a child if required.
 
-        :rtype: Environment|None
         """
         return get_environment()

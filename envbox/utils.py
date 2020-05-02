@@ -2,18 +2,18 @@ import io
 import os
 import re
 from ast import literal_eval
+from typing import Any
 
 RE_TPL_VAR = re.compile('(\${([^}]+)})')
 
 
-def cast_type(value):
+def cast_type(value: str) -> Any:
     """Try to cast value into Python native type.
 
     Returns non casted on errors.
 
-    :param str|unicode value:
+    :param value:
 
-    :rtype: Any
     """
     result = value
 
@@ -26,7 +26,7 @@ def cast_type(value):
     return result
 
 
-def read_envfile(fpath):
+def read_envfile(fpath: str) -> dict:
     """Reads environment variables from .env key-value file.
 
     Rules:
@@ -37,13 +37,9 @@ def read_envfile(fpath):
         * ${VAL} will be replaced with VAL value previously defined in .env file(s)
           or currently available in env.
 
-    Returns a dictionary.
+    Returns a dictionary. Empty dictionary is returned if file is not accessible.
 
-    Empty dictionary is returned if file is not accessible.
-
-    :param str|unicode fpath:
-
-    :rtype: dict
+    :param fpath:
 
     """
     environ = os.environ

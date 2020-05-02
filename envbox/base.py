@@ -2,33 +2,38 @@ import sys
 from os.path import dirname, basename
 from inspect import currentframe
 from importlib import import_module
+from typing import Union, Optional, List
 
-from .detectors import DETECTORS, get_detector
+from .detectors import DETECTORS, get_detector, Detector
 from .envs import Environment, DEVELOPMENT, get_type
 
 
-def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None, use_envfiles=True):
+def get_environment(
+        default: Optional[Union[str, Environment]] = DEVELOPMENT,
+        detectors: List[Detector] = None,
+        detectors_opts: dict = None,
+        use_envfiles: bool = True
+) -> Optional[Environment]:
     """Returns current environment type object.
 
-    :param str|Environment|None default: Default environment type or alias.
+    :param default: Default environment type or alias.
 
-    :param list[Detector] detectors: List of environment detectors to be used in chain.
+    :param detectors: List of environment detectors to be used in chain.
         If not set, default builtin chain is used.
 
-    :param dict detectors_opts: Detectors options dictionary.
+    :param detectors_opts: Detectors options dictionary.
         Where keys are detector names and values are keyword arguments dicts.
 
-    :param bool use_envfiles: Whether to set environment variables (if not already set)
+    :param use_envfiles: Whether to set environment variables (if not already set)
         using data from .env files.
 
-    :rtype: Environment|None
     """
     detectors_opts = detectors_opts or {}
 
     if detectors is None:
         detectors = DETECTORS.keys()
 
-    env = None
+    env_type = None
 
     for detector in detectors:
         opts = detectors_opts.get(detector, {})
@@ -38,22 +43,31 @@ def get_environment(default=DEVELOPMENT, detectors=None, detectors_opts=None, us
         env_name = detector.probe()
 
         if env_name:
-            env = get_type(env_name)
+            env_type = get_type(env_name)
             break
 
-    if env is None and default is not None:
-        env = get_type(default)
+    if env_type is None and default is not None:
+        env_type = get_type(default)
 
-    if env is not None:
-        env = env()  # type: Environment
+    env = None
+
+    if env_type is not None:
+        env = env_type()
         use_envfiles and env.update_from_envfiles()
 
     return env
 
 
-def import_by_environment(environment=None, module_name_pattern='settings_%s', silent=False, package_name=None):
+def import_by_environment(
+        environment: Environment = None,
+        module_name_pattern: str = 'settings_%s',
+        silent: bool = False,
+        package_name: str = None
+) -> Optional[Environment]:
     """Automatically imports symbols of a submodule of a package for given
     (or detected) environment into globals of an entry-point submodule.
+
+    Returns``Environment`` object if module is imported or ``None``.
 
     Example::
 
@@ -71,23 +85,19 @@ def import_by_environment(environment=None, module_name_pattern='settings_%s', s
     * ``import_by_environment()`` call in ``settings.py`` makes symbols from ``settings_development.py``
       available from ``settings.py``.
 
-    :param Environment environment:
+    :param environment:
 
-    :param str|unicode module_name_pattern: Environment submodule name pattern.
+    :param module_name_pattern: Environment submodule name pattern.
         ``%s`` will be replaced with environment name.
 
-    :param bool silent: If ``True`` no import error (if any) will be raised.
+    :param silent: If ``True`` no import error (if any) will be raised.
 
-    :param str package_name: Name of the package holding settings file.
+    :param package_name: Name of the package holding settings file.
         We'll try to guess it if not provided.
 
         E.g.:
             * someproject.settings
             * someproject.inner.settings
-
-    :rtype: Environment|None
-
-    :returns: ``Environment`` object if module is imported or ``None``.
 
     """
     environment = environment or get_environment()

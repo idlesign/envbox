@@ -1,4 +1,5 @@
 import os
+from typing import Union, Type, List, Sequence, Any
 
 from .utils import cast_type, read_envfile
 
@@ -12,36 +13,36 @@ TYPES = {}
 
 class Environment:
 
-    name = 'dummy'
+    name: str = 'dummy'
     """Name this environment type is known as."""
 
-    aliases = []
+    aliases: List[str] = []
     """Aliases this environment type is known as."""
 
-    type_cast = False
+    type_cast: bool = False
     """Whether to cast values into Python natives in .get() and .getmany() by default."""
 
-    is_development = False
+    is_development: bool = False
     """Indicates whether this environment is development."""
 
-    is_testing = False
+    is_testing: bool = False
     """Indicates whether this environment is testing."""
 
-    is_staging = False
+    is_staging: bool = False
     """Indicates whether this environment is staging."""
 
-    is_production = False
+    is_production: bool = False
     """Indicates whether this environment is production."""
 
     env = os.environ
 
-    def __init__(self, name=None, type_cast=None):
+    def __init__(self, name: str = None, type_cast: bool = None):
         """
-        :param str|unicode name: Environment name.
+        :param name: Environment name.
 
             .. note:: This will prevail over class attribute.
 
-        :param bool type_cast: Whether to cast values into Python natives in .get() and .getmany() by default.
+        :param type_cast: Whether to cast values into Python natives in .get() and .getmany() by default.
 
             .. note:: This will prevail over class attribute.
 
@@ -80,14 +81,12 @@ class Environment:
 
         self.setmany(env_vars, overwrite=False)
 
-    def getmany(self, prefix='', type_cast=None):
+    def getmany(self, prefix: str = '', type_cast: bool = None) -> dict:
         """Returns a dictionary of values for keys the given prefix.
 
-        :param str|unicode prefix:
+        :param prefix:
 
-        :param bool type_cast: Try to cast value into Python native type.
-
-        :rtype: dict
+        :param type_cast: Try to cast value into Python native type.
 
         """
         if type_cast is None:
@@ -105,18 +104,18 @@ class Environment:
 
         return result
 
-    def getmany_casted(self, prefix=''):
+    def getmany_casted(self, prefix: str = '') -> dict:
         """The same as `getnamy` but tries to cast values into Python natives."""
         return self.getmany(prefix=prefix, type_cast=True)
 
-    def setmany(self, key_val, prefix='', overwrite=True):
+    def setmany(self, key_val: dict, prefix: str = '', overwrite: bool = True):
         """Sets values in batch mode.
 
-        :param dict key_val:
+        :param key_val:
 
-        :param str|unicode prefix:
+        :param prefix:
 
-        :param bool overwrite: Whether to overwrite value if it's already set.
+        :param overwrite: Whether to overwrite value if it's already set.
 
         """
         key_val = key_val or {}
@@ -132,12 +131,12 @@ class Environment:
             else:
                 env.setdefault(key, val)
 
-    def dropmany(self, keys=None, prefix=''):
+    def dropmany(self, keys: Sequence[str] = None, prefix: str = ''):
         """Drops keys in batch mode.
 
-        :param Iterable keys: Keys to drop. If not set current env keys will be used.
+        :param keys: Keys to drop. If not set current env keys will be used.
 
-        :param str|unicode prefix:
+        :param prefix:
 
         """
         env = self.env
@@ -147,14 +146,14 @@ class Environment:
         for key in keys:
             del env[prefix + key]
 
-    def get(self, key, default=None, type_cast=None):
+    def get(self, key: str, default: Any = None, type_cast: bool = None) -> Any:
         """Get environment variable value.
 
-        :param str|unicode key:
+        :param key:
 
         :param default: Default value to return if no value found.
 
-        :param bool type_cast: Try to cast value into Python native type.
+        :param type_cast: Try to cast value into Python native type.
 
         """
         result = self.env.get(key, default)
@@ -167,18 +166,18 @@ class Environment:
 
         return result
 
-    def get_casted(self, key, default=None):
+    def get_casted(self, key: str, default: Any = None) -> Any:
         """The same as `get` but tries to cast values into Python natives."""
         return self.get(key, default, type_cast=True)
 
-    def set(self, key, value, overwrite=True):
+    def set(self, key: str, value: Any, overwrite: bool = True):
         """Set environment variable.
 
-        :param str|unicode key:
+        :param key:
 
         :param value:
 
-        :param bool overwrite: Whether to overwrite value if it's already set.
+        :param overwrite: Whether to overwrite value if it's already set.
 
         """
         value = '%s' % value
@@ -189,7 +188,7 @@ class Environment:
         else:
             self.env.setdefault(key, value)
 
-    def drop(self, key):
+    def drop(self, key: str):
         """Removes key from environment."""
         del self.env[key]
 
@@ -220,44 +219,45 @@ class Environment:
 class Development(Environment):
     """Development (local) environment."""
 
-    name = DEVELOPMENT
-    aliases = ['dev']
-    is_development = True
+    name: str = DEVELOPMENT
+    aliases: List[str] = ['dev']
+    is_development: bool = True
 
 
 class Testing(Environment):
     """Testing environment."""
 
-    name = TESTING
-    aliases = ['test']
-    is_testing = True
+    name: str = TESTING
+    aliases: List[str] = ['test']
+    is_testing: bool = True
 
 
 class Staging(Environment):
     """Staging (prestable) environment."""
 
-    name = STAGING
-    aliases = ['stage']
-    is_staging = True
+    name: str = STAGING
+    aliases: List[str] = ['stage']
+    is_staging: bool = True
 
 
 class Production(Environment):
     """Production (stable) environment."""
 
-    name = PRODUCTION
-    aliases = ['prod']
-    is_production = True
+    name: str = PRODUCTION
+    aliases: List[str] = ['prod']
+    is_production: bool = True
 
 
-def register_type(env_type, alias=None):
+TypeEnvArg = Union['Environment', str]
+
+
+def register_type(env_type: TypeEnvArg, alias: str = None) -> Type[Environment]:
     """Registers environment type.
 
-    :param str|unicode|Environment env_type: Environment type or its alias
+    :param env_type: Environment type or its alias
         (for already registered types).
 
-    :param str|unicode alias: Alias to register type under. If not set type name is used.
-
-    :rtype: Environment
+    :param alias: Alias to register type under. If not set type name is used.
 
     """
     if isinstance(env_type, str):
@@ -274,12 +274,10 @@ def register_type(env_type, alias=None):
     return env_type
 
 
-def get_type(cls_or_alias):
+def get_type(cls_or_alias: TypeEnvArg) -> Type[Environment]:
     """Returns environment type by alias (or class itself)
 
-    :param Environment|str|unicode cls_or_alias:
-
-    :rtype: Environment
+    :param cls_or_alias:
 
     """
     if isinstance(cls_or_alias, str):
