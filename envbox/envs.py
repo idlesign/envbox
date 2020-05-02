@@ -123,7 +123,7 @@ class Environment:
 
         for key, val in key_val.items():
             key = prefix + key
-            val = '%s' % val
+            val = f'{val}'
 
             if overwrite:
                 env[key] = val
@@ -180,7 +180,7 @@ class Environment:
         :param overwrite: Whether to overwrite value if it's already set.
 
         """
-        value = '%s' % value
+        value = f'{value}'
 
         if overwrite:
             self.env[key] = value
@@ -213,7 +213,7 @@ class Environment:
         return self.name
 
     def __eq__(self, other):
-        return '%s' % self == '%s' % other
+        return f'{self}' == f'{other}'
 
 
 class Development(Environment):
