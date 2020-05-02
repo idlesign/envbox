@@ -1,7 +1,6 @@
-from collections import OrderedDict
 from os import environ
 
-DETECTORS = OrderedDict()
+DETECTORS = {}
 
 
 class Detector:

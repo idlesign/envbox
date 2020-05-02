@@ -1,5 +1,4 @@
 import os
-from collections import OrderedDict
 
 from .utils import cast_type, read_envfile
 
@@ -8,7 +7,7 @@ TESTING = 'testing'
 STAGING = 'staging'
 PRODUCTION = 'production'
 
-TYPES = OrderedDict()
+TYPES = {}
 
 
 class Environment:
@@ -74,7 +73,7 @@ class Environment:
         contribute_candidates('.env.%s')
         files.append('.env.local')
         contribute_candidates('.env.%s.local')
-        env_vars = OrderedDict()
+        env_vars = {}
 
         for fname in files:
             env_vars.update(read_envfile(fname))
@@ -88,13 +87,13 @@ class Environment:
 
         :param bool type_cast: Try to cast value into Python native type.
 
-        :rtype: OrderedDict
+        :rtype: dict
 
         """
         if type_cast is None:
             type_cast = self.type_cast
 
-        result = OrderedDict()
+        result = {}
 
         for key, val in self.env.items():
             if key.startswith(prefix):

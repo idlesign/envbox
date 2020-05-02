@@ -2,7 +2,6 @@ import io
 import os
 import re
 from ast import literal_eval
-from collections import OrderedDict
 
 RE_TPL_VAR = re.compile('(\${([^}]+)})')
 
@@ -44,11 +43,11 @@ def read_envfile(fpath):
 
     :param str|unicode fpath:
 
-    :rtype: OrderedDict
+    :rtype: dict
 
     """
     environ = os.environ
-    env_vars = OrderedDict()
+    env_vars = {}
 
     try:
 
