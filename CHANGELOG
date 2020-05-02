@@ -6,7 +6,7 @@ Unreleased
 ----------
 ! Dropped support for Py 2.
 * Added QA for Py 3.8.
-* Dropped QA for Py 3.5.
+* Dropped support for Py 3.5.
 
 
 v1.1.0
