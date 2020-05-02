@@ -30,7 +30,7 @@ Requirements
 
 ----
 
-1. Python 2.7+, 3.6+
+1. Python 3.6+
 2. ``click`` package (optional, for CLI)
 
 

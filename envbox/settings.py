@@ -1,11 +1,9 @@
 from threading import local
 
 from .base import get_environment
-from .utils import add_metaclass
-
 
 if False:  # pragma: nocover
-    from .envs import Environment
+    from .envs import Environment  # noqa
 
 
 _LOCALS = local()
@@ -25,7 +23,7 @@ class _SettingsMeta(type):
         return type.__new__(cls, name, bases, dict(namespace))
 
 
-class _Setting(object):
+class _Setting:
 
     def __init__(self, name, default):
         self.name = name
@@ -49,8 +47,7 @@ class _Setting(object):
         _LOCALS.envbox_settings[self.name] = value
 
 
-@add_metaclass(_SettingsMeta)
-class SettingsBase():
+class SettingsBase(metaclass=_SettingsMeta):
     """Use this class as base for your classes containing settings.
 
     .. note:: Settings are per-thread.

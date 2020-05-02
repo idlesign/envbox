@@ -1,14 +1,10 @@
-from __future__ import unicode_literals, absolute_import
-
 from collections import OrderedDict
 from os import environ
-
-from .utils import string_types
 
 DETECTORS = OrderedDict()
 
 
-class Detector(object):
+class Detector:
 
     name = 'dummy'
     source = None
@@ -66,7 +62,7 @@ def get_detector(cls_or_name):
     :rtype: Detector
 
     """
-    if isinstance(cls_or_name, string_types):
+    if isinstance(cls_or_name, str):
         return DETECTORS[cls_or_name]
 
     return cls_or_name

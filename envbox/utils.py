@@ -1,36 +1,10 @@
 import io
 import os
 import re
-import sys
 from ast import literal_eval
 from collections import OrderedDict
 
 RE_TPL_VAR = re.compile('(\${([^}]+)})')
-
-PY3 = sys.version_info[0] == 3
-
-if PY3:  # pragma: nocover
-    string_types = str,
-
-else:  # pragma: nocover
-    string_types = basestring,
-
-
-def python_2_unicode_compatible(klass):  # pragma: nocover
-    if not PY3:
-        klass.__unicode__ = klass.__str__
-        klass.__str__ = lambda self: self.__unicode__().encode('utf-8')
-    return klass
-
-
-def add_metaclass(metaclass):
-    """Class decorator for creating a class with a metaclass."""
-    def wrapper(cls):
-        orig_vars = cls.__dict__.copy()
-        orig_vars.pop('__dict__', None)
-        orig_vars.pop('__weakref__', None)
-        return metaclass(cls.__name__, cls.__bases__, orig_vars)
-    return wrapper
 
 
 def cast_type(value):

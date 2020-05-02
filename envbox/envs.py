@@ -1,9 +1,7 @@
-from __future__ import unicode_literals, absolute_import
-
 import os
 from collections import OrderedDict
 
-from .utils import string_types, python_2_unicode_compatible, cast_type, read_envfile
+from .utils import cast_type, read_envfile
 
 DEVELOPMENT = 'development'
 TESTING = 'testing'
@@ -13,8 +11,7 @@ PRODUCTION = 'production'
 TYPES = OrderedDict()
 
 
-@python_2_unicode_compatible
-class Environment(object):
+class Environment:
 
     name = 'dummy'
     """Name this environment type is known as."""
@@ -264,7 +261,7 @@ def register_type(env_type, alias=None):
     :rtype: Environment
 
     """
-    if isinstance(env_type, string_types):
+    if isinstance(env_type, str):
         env_type = TYPES[env_type]
 
     if alias is None:
@@ -286,7 +283,7 @@ def get_type(cls_or_alias):
     :rtype: Environment
 
     """
-    if isinstance(cls_or_alias, string_types):
+    if isinstance(cls_or_alias, str):
         return TYPES[cls_or_alias]
 
     return cls_or_alias
