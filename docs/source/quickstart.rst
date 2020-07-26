@@ -38,6 +38,22 @@ Basic usage
     # {'UNBUFFERED': 1, 'IOENCODING': 'UTF-8', 'PATH': ...}
 
 
+.env files as a source
+----------------------
+
+You may want to put your environment vars into ``.env`` files
+(e.g.: ``.env``, ``.env.development`` ``.env.production``)
+to be read by ``envbox``:
+
+.. code-block::
+
+  MY_VAR1 = value1
+  HOME = /home/other/
+
+``envbox`` will try to load such files from the current working directory
+for the current environment type automatically.
+
+
 Settings container
 ------------------
 

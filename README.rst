@@ -70,8 +70,17 @@ Code sample
     env.getmany('PYTHON')
     # {'UNBUFFERED': '1', 'IOENCODING': 'UTF-8', 'PATH': ...}
 
+Now you may want to put your environment vars into ``.env`` files
+(e.g.: ``.env``, ``.env.development`` ``.env.production``)
+to be read by ``envbox``:
+
+.. code-block::
+
+  MY_VAR1 = value1
+  HOME = /home/other/
 
 Read the docs for more examples.
+
 
 CLI
 ~~~
