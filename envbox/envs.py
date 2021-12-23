@@ -191,6 +191,10 @@ class Environment:
     def drop(self, key: str):
         """Removes key from environment."""
         del self.env[key]
+        
+    def keys(self):
+        # mapping protocol: allow casting to a dict
+        return list(self.env.keys())
 
     __delattr__ = __delitem__ = drop
     __getattr__ = __getitem__ = get
