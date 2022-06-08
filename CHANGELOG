@@ -2,6 +2,12 @@ envbox changelog
 ================
 
 
+Unreleased
+----------
++ 'read_envfile()' now supports Path objects.
++ Implemented support for multiline values in .env files.
+
+
 v1.2.0 [2020-05-02]
 -------------------
 ! Dropped support for Py 2.
