@@ -43,9 +43,7 @@ Basic usage
 
 You may want to put your environment vars into ``.env`` files
 (e.g.: ``.env``, ``.env.development`` ``.env.production``)
-to be read by ``envbox``:
-
-.. code-block::
+to be read by ``envbox``::
 
     MY_VAR_1 = value1
     HOME = /home/other/
