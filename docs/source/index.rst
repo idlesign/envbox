@@ -24,7 +24,7 @@ Features
 Requirements
 ------------
 
-1. Python 3.6+
+1. Python 3.7+
 2. ``click`` package (optional, for CLI)
 
 
@@ -37,5 +37,3 @@ Table of Contents
 
     quickstart
     api
-
-
