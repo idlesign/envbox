@@ -122,7 +122,7 @@ class Environment:
         env = self.env
 
         for key, val in key_val.items():
-            key = prefix + key
+            key = f'{prefix}{key}'
             val = f'{val}'
 
             if overwrite:
@@ -144,7 +144,7 @@ class Environment:
         keys = keys or [key.replace(prefix, '', 1) for key in env.keys() if key.startswith(prefix)]
 
         for key in keys:
-            del env[prefix + key]
+            del env[f'{prefix}{key}']
 
     def get(self, key: str, default: Any = None, type_cast: bool = None) -> Any:
         """Get environment variable value.

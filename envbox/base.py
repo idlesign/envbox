@@ -102,7 +102,7 @@ def import_by_environment(
     """
     environment = environment or get_environment()
 
-    module_name_pattern = '.' + module_name_pattern
+    module_name_pattern = f'.{module_name_pattern}'
 
     settings_module = currentframe().f_back
     filedir = dirname(settings_module.f_code.co_filename)
@@ -112,7 +112,7 @@ def import_by_environment(
 
         if package_name not in sys.modules.keys():
             # Last try to deduce maybe 'someproject.settings'.
-            package_name = basename(dirname(filedir)) + '.' + package_name
+            package_name = f'{basename(dirname(filedir))}.{package_name}'
 
     result = None
 
