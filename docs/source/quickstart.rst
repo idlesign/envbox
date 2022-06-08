@@ -59,7 +59,7 @@ to be read by ``envbox``:
     MY_VAR_2 = ${MY_QUOTED}
 
     # multiline with dangling quotes
-    MULTI_1="
+    MULTI_1 = "
     line1
     line2
     "
