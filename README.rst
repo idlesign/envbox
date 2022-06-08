@@ -67,8 +67,30 @@ to be read by ``envbox``:
 
 .. code-block::
 
-  MY_VAR1 = value1
-  HOME = /home/other/
+    MY_VAR_1 = value1
+    HOME = /home/other/
+
+    # comments are ignored, just as lines without definitions
+
+    # mathing quotes (" and ') are stripped
+    MY_QUOTED = "some quoted "
+
+    # ${VARNAME} will be replaced by value from env (if available)
+    MY_VAR_2 = ${MY_QUOTED}
+
+    # multiline with dangling quotes
+    MULTI_1="
+    line1
+    line2
+    "
+
+    # multiline classic
+    MULTI_2 = "line1
+    line2
+    line3"
+
+    # multiline as one line
+    MULTI_3 = "one\ntwo"
 
 Read the docs for more examples.
 
