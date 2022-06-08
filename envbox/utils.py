@@ -2,7 +2,8 @@ import io
 import os
 import re
 from ast import literal_eval
-from typing import Any
+from pathlib import Path
+from typing import Any, Union
 
 RE_TPL_VAR = re.compile('(\${([^}]+)})')
 
@@ -26,7 +27,7 @@ def cast_type(value: str) -> Any:
     return result
 
 
-def read_envfile(fpath: str) -> dict:
+def read_envfile(fpath: Union[str, Path]) -> dict:
     """Reads environment variables from .env key-value file.
 
     Rules:
@@ -47,7 +48,7 @@ def read_envfile(fpath: str) -> dict:
 
     try:
 
-        with io.open(fpath) as f:
+        with io.open(f'{fpath}') as f:
             lines = f.readlines()
 
     except IOError:
