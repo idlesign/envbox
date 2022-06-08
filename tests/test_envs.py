@@ -55,7 +55,7 @@ def test_set_get():
     assert env.get('one') == 3
 
 
-def test_set_get_many():
+def test_set_get_many(datafix_dir):
 
     env = Development()
 
@@ -78,7 +78,7 @@ def test_set_get_many():
 
     cwd = os.getcwd()
     try:
-        os.chdir(os.path.join(os.path.dirname(__file__), 'testapp'))
+        os.chdir(f'{datafix_dir}')
         env.update_from_envfiles()
 
         envbox_tst = env.getmany('ENVBOXTST_')

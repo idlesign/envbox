@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from envbox import Environment
 from envbox.utils import cast_type, read_envfile
 
@@ -12,12 +10,12 @@ def test_cast_type():
     assert cast_type('True') is True
 
 
-def test_read_envfile():
+def test_read_envfile(datafix_dir):
 
     env = Environment()
     env['ENVBOXTST_CHANGE'] = 'this'
 
-    entries = read_envfile(Path(__file__).parent / 'testapp' / '.env')
+    entries = read_envfile(datafix_dir / '.env')
 
     assert len(entries) == 5
     assert entries['ENVBOXTST_MYQUOTED1'] == 'some quoted'
