@@ -1,7 +1,7 @@
 from os import environ
-from typing import Union, Type, Optional
+from typing import Union, Type, Optional, Dict
 
-DETECTORS = {}
+DETECTORS: Dict[str, Type['Detector']] = {}
 
 
 class Detector:
@@ -16,7 +16,7 @@ class Detector:
         raise NotImplementedError
 
 
-TypeDetectorArg = Union[Detector, str]
+TypeDetectorArg = Union[Type[Detector], str]
 
 
 class Environ(Detector):

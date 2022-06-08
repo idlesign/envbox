@@ -1,5 +1,5 @@
 from threading import local
-from typing import Optional
+from typing import Optional, Any
 
 from .base import get_environment
 
@@ -26,7 +26,7 @@ class _SettingsMeta(type):
 
 class _Setting:
 
-    def __init__(self, name, default):
+    def __init__(self, name: str, default: Any):
         self.name = name
         self.default = default
 

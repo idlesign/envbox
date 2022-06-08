@@ -1,5 +1,5 @@
 import os
-from typing import Union, Type, List, Sequence, Any
+from typing import Union, Type, List, Sequence, Any, Dict
 
 from .utils import cast_type, read_envfile
 
@@ -8,7 +8,7 @@ TESTING = 'testing'
 STAGING = 'staging'
 PRODUCTION = 'production'
 
-TYPES = {}
+TYPES: Dict[str, Type['Environment']] = {}
 
 
 class Environment:
@@ -252,7 +252,7 @@ class Production(Environment):
     is_production: bool = True
 
 
-TypeEnvArg = Union['Environment', str]
+TypeEnvArg = Union[Type['Environment'], str]
 
 
 def register_type(env_type: TypeEnvArg, alias: str = None) -> Type[Environment]:
