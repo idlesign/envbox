@@ -93,7 +93,7 @@ def test_set_get_many(datafix_dir):
         assert envbox_tst['MYVAL2'] == 'enim'
         assert envbox_tst['OTHER'] == 'mine ${ENVBOXTST_CHANGE} $VAL enim'
 
-        assert len(envbox_tst) == 8
+        assert len(envbox_tst) == 13
 
     finally:
         env.dropmany(prefix='ENVBOXTST_')
