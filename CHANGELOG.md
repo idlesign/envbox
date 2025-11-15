@@ -1,5 +1,8 @@
 # envbox changelog
 
+### Unreleased
+* !! Code modernized for latest Python versions.
+
 ### v1.3.0 [2022-06-08]
 * ++ 'read_envfile()' now supports Path objects.
 * ++ Implemented support for multiline values in .env files.
