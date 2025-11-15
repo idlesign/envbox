@@ -1,6 +1,6 @@
 # envbox changelog
 
-### Unreleased
+### v2.0.0 [2025-11-15]
 * !! Code modernized for latest Python versions.
 
 ### v1.3.0 [2022-06-08]
