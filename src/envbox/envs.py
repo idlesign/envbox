@@ -1,5 +1,6 @@
 import os
-from typing import Union, Type, List, Sequence, Any, Dict
+from collections.abc import Sequence
+from typing import Any, ClassVar
 
 from .utils import cast_type, read_envfile
 
@@ -8,7 +9,7 @@ TESTING = 'testing'
 STAGING = 'staging'
 PRODUCTION = 'production'
 
-TYPES: Dict[str, Type['Environment']] = {}
+TYPES: dict[str, type['Environment']] = {}
 
 
 class Environment:
@@ -16,7 +17,7 @@ class Environment:
     name: str = 'dummy'
     """Name this environment type is known as."""
 
-    aliases: List[str] = []
+    aliases: ClassVar[list[str]] = []
     """Aliases this environment type is known as."""
 
     type_cast: bool = False
@@ -36,15 +37,15 @@ class Environment:
 
     env = os.environ
 
-    def __init__(self, name: str = None, type_cast: bool = None):
+    def __init__(self, name: str = '', *, type_cast: bool | None = None):
         """
         :param name: Environment name.
-
-            .. note:: This will prevail over class attribute.
+            !!! note
+                This will prevail over class attribute.
 
         :param type_cast: Whether to cast values into Python natives in .get() and .getmany() by default.
-
-            .. note:: This will prevail over class attribute.
+            !!! note
+                This will prevail over class attribute.
 
         """
         self.name = name or self.name
@@ -68,7 +69,7 @@ class Environment:
         def contribute_candidates(tpl):
             # This will handle env type aliases.
             for candidate in name_candidates:
-                files.append(tpl % candidate)
+                files.append(tpl % candidate)  # noqa: PERF401
 
         files = ['.env']
         contribute_candidates('.env.%s')
@@ -81,7 +82,7 @@ class Environment:
 
         self.setmany(env_vars, overwrite=False)
 
-    def getmany(self, prefix: str = '', type_cast: bool = None) -> dict:
+    def getmany(self, prefix: str = '', *, type_cast: bool | None = None) -> dict:
         """Returns a dictionary of values for keys the given prefix.
 
         :param prefix:
@@ -105,10 +106,10 @@ class Environment:
         return result
 
     def getmany_casted(self, prefix: str = '') -> dict:
-        """The same as `getnamy` but tries to cast values into Python natives."""
+        """The same as `getmany` but tries to cast values into Python natives."""
         return self.getmany(prefix=prefix, type_cast=True)
 
-    def setmany(self, key_val: dict, prefix: str = '', overwrite: bool = True):
+    def setmany(self, key_val: dict, *, prefix: str = '', overwrite: bool = True):
         """Sets values in batch mode.
 
         :param key_val:
@@ -131,7 +132,7 @@ class Environment:
             else:
                 env.setdefault(key, val)
 
-    def dropmany(self, keys: Sequence[str] = None, prefix: str = ''):
+    def dropmany(self, keys: Sequence[str] | None = None, *, prefix: str = ''):
         """Drops keys in batch mode.
 
         :param keys: Keys to drop. If not set current env keys will be used.
@@ -146,7 +147,7 @@ class Environment:
         for key in keys:
             del env[f'{prefix}{key}']
 
-    def get(self, key: str, default: Any = None, type_cast: bool = None) -> Any:
+    def get(self, key: str, default: Any = None, *, type_cast: bool | None = None) -> Any:
         """Get environment variable value.
 
         :param key:
@@ -170,7 +171,7 @@ class Environment:
         """The same as `get` but tries to cast values into Python natives."""
         return self.get(key, default, type_cast=True)
 
-    def set(self, key: str, value: Any, overwrite: bool = True):
+    def set(self, key: str, value: Any, *, overwrite: bool = True):
         """Set environment variable.
 
         :param key:
@@ -224,7 +225,7 @@ class Development(Environment):
     """Development (local) environment."""
 
     name: str = DEVELOPMENT
-    aliases: List[str] = ['dev']
+    aliases: ClassVar[list[str]] = ['dev']
     is_development: bool = True
 
 
@@ -232,7 +233,7 @@ class Testing(Environment):
     """Testing environment."""
 
     name: str = TESTING
-    aliases: List[str] = ['test']
+    aliases: ClassVar[list[str]] = ['test']
     is_testing: bool = True
 
 
@@ -240,7 +241,7 @@ class Staging(Environment):
     """Staging (prestable) environment."""
 
     name: str = STAGING
-    aliases: List[str] = ['stage']
+    aliases: ClassVar[list[str]] = ['stage']
     is_staging: bool = True
 
 
@@ -248,14 +249,14 @@ class Production(Environment):
     """Production (stable) environment."""
 
     name: str = PRODUCTION
-    aliases: List[str] = ['prod']
+    aliases: ClassVar[list[str]] = ['prod']
     is_production: bool = True
 
 
-TypeEnvArg = Union[Type['Environment'], str]
+TypeEnvArg = type['Environment'] | str
 
 
-def register_type(env_type: TypeEnvArg, alias: str = None) -> Type[Environment]:
+def register_type(env_type: TypeEnvArg, alias: str = '') -> type[Environment]:
     """Registers environment type.
 
     :param env_type: Environment type or its alias
@@ -267,8 +268,7 @@ def register_type(env_type: TypeEnvArg, alias: str = None) -> Type[Environment]:
     if isinstance(env_type, str):
         env_type = TYPES[env_type]
 
-    if alias is None:
-        alias = env_type.name
+    alias = alias or env_type.name
 
     TYPES[alias] = env_type
 
@@ -278,7 +278,7 @@ def register_type(env_type: TypeEnvArg, alias: str = None) -> Type[Environment]:
     return env_type
 
 
-def get_type(cls_or_alias: TypeEnvArg) -> Type[Environment]:
+def get_type(cls_or_alias: TypeEnvArg) -> type[Environment]:
     """Returns environment type by alias (or class itself)
 
     :param cls_or_alias:

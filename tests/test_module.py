@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from envbox import get_environment, PRODUCTION, import_by_environment
+from envbox import PRODUCTION, get_environment, import_by_environment
 
 
 def test_get_environment():

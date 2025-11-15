@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import click
 
 from envbox import VERSION, get_environment

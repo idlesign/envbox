@@ -1,10 +1,11 @@
 import os
+from pathlib import Path
+
 import pytest
 
-from envbox import get_environment
-from envbox import DEVELOPMENT, PRODUCTION
+from envbox import DEVELOPMENT, PRODUCTION, get_environment
 from envbox.detectors import Environ
-from envbox.envs import get_type, register_type, Development
+from envbox.envs import Development, get_type, register_type
 
 
 def test_get_type():
@@ -76,7 +77,7 @@ def test_set_get_many(datafix_dir):
     assert many['one'] == 1
     assert many['TWO'] == 2
 
-    cwd = os.getcwd()
+    cwd = Path.cwd()
     try:
         os.chdir(f'{datafix_dir}')
         env.update_from_envfiles()

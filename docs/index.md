@@ -15,4 +15,4 @@
 ## Requirements
 
 1. Python 3.10+
-2. ``click`` package (optional, for CLI)
+2. `click` package (optional, for CLI)

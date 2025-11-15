@@ -1,7 +1,7 @@
 import pytest
 
 from envbox import get_environment
-from envbox.detectors import get_detector, Environ, File
+from envbox.detectors import Environ, File, get_detector
 
 
 def test_get_detector():
@@ -21,6 +21,6 @@ def test_file_detector(tmpdir):
     path = tmpdir.mkdir('envboxtmp').join('myenvironment')
     path.write('testing')
 
-    env = get_environment(detectors_opts={'file': {'source': '%s' % path}})
+    env = get_environment(detectors_opts={'file': {'source': f'{path}'}})
 
     assert env.is_testing

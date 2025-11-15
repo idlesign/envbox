@@ -1,7 +1,7 @@
 from os import environ
-from typing import Union, Type, Optional, Dict
+from pathlib import Path
 
-DETECTORS: Dict[str, Type['Detector']] = {}
+DETECTORS: dict[str, type['Detector']] = {}
 
 
 class Detector:
@@ -12,11 +12,11 @@ class Detector:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
-    def probe(self) -> Optional[str]:  # pragma: nocover
+    def probe(self) -> str | None:  # pragma: nocover
         raise NotImplementedError
 
 
-TypeDetectorArg = Union[Type[Detector], str]
+TypeDetectorArg = type[Detector] | str
 
 
 class Environ(Detector):
@@ -25,7 +25,7 @@ class Environ(Detector):
     name = 'environ'
     source = 'PYTHON_ENV'
 
-    def probe(self) -> Optional[str]:
+    def probe(self) -> str | None:
         return environ.get(self.source)
 
 
@@ -35,20 +35,20 @@ class File(Detector):
     name = 'file'
     source = 'environment'
 
-    def probe(self) -> Optional[str]:
+    def probe(self) -> str | None:
         env_name = None
 
         try:
-            with open(self.source) as f:
+            with Path(self.source).open() as f:
                 env_name = f.read().strip()
 
-        except IOError:
+        except OSError:
             pass
 
         return env_name
 
 
-def register_detector(detector: Type[Detector]):
+def register_detector(detector: type[Detector]):
     """Registers an environment detector.
 
     :param detector:
@@ -57,7 +57,7 @@ def register_detector(detector: Type[Detector]):
     DETECTORS[detector.name] = detector
 
 
-def get_detector(cls_or_name: TypeDetectorArg) -> Type[Detector]:
+def get_detector(cls_or_name: TypeDetectorArg) -> type[Detector]:
     """Returns detector by alias (or class itself)
 
     :param cls_or_name:

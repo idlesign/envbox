@@ -1,16 +1,16 @@
 from threading import local
-from typing import Optional, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from .base import get_environment
 
-if False:  # pragma: nocover
-    from .envs import Environment  # noqa
+if TYPE_CHECKING:
+    from .envs import Environment
 
 
 _LOCALS = local()
-_UNSET = tuple()
+_UNSET = ()
 
-setattr(_LOCALS, 'envbox_settings', {})
+_LOCALS.envbox_settings = {}
 
 
 class _SettingsMeta(type):
@@ -48,9 +48,10 @@ class _Setting:
 class SettingsBase(metaclass=_SettingsMeta):
     """Use this class as base for your classes containing settings.
 
-    .. note:: Settings are per-thread.
+    !!! note
+        Settings are per-thread.
 
-    Every uppercase attribute of of a heir class will be treated
+    Every uppercase attribute of an heir class will be treated
     as a setting.
 
     Accessing any setting which was not set in the session,
@@ -60,18 +61,18 @@ class SettingsBase(metaclass=_SettingsMeta):
         2. environment value
         3. default value
 
-    .. code-block:: python
+    ```python
+    class _Settings(SettingsBase):
 
-        class _Settings(SettingsBase):
+        ONE = 1
+        SOME = 'two'
+        ANOTHER = True
 
-            ONE = 1
-            SOME = 'two'
-            ANOTHER = True
+    Settings = _Settings()
 
-        Settings = _Settings()
-
-        if Settings.ANOTHER:
-            Settings.SOME = 'three'
+    if Settings.ANOTHER:
+        Settings.SOME = 'three'
+    ```
 
     """
 

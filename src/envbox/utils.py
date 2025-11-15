@@ -1,11 +1,10 @@
-import io
 import os
 import re
 from ast import literal_eval
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
-RE_TPL_VAR = re.compile('(\${([^}]+)})')
+RE_TPL_VAR = re.compile(r'(\${([^}]+)})')
 
 
 def cast_type(value: str) -> Any:
@@ -21,13 +20,13 @@ def cast_type(value: str) -> Any:
     try:
         result = literal_eval(value)
 
-    except Exception:
+    except Exception:  # noqa:BLE001
         pass
 
     return result
 
 
-def read_envfile(fpath: Union[str, Path]) -> dict:
+def read_envfile(fpath: str | Path) -> dict:
     """Reads environment variables from .env key-value file.
 
     Rules:
@@ -48,10 +47,10 @@ def read_envfile(fpath: Union[str, Path]) -> dict:
 
     try:
 
-        with io.open(f'{fpath}') as f:
+        with Path(fpath).open() as f:
             lines = f.readlines()
 
-    except IOError:
+    except OSError:
         return env_vars
 
     def drop_quotes(quote_char, val):
