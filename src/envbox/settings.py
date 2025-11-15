@@ -19,14 +19,14 @@ class _SettingsMeta(type):
 
         for attr_name, attr_val in namespace.items():
             if attr_name == attr_name.upper():
-                namespace[attr_name] = _Setting(attr_name, attr_val)
+                namespace[attr_name] = _Setting(attr_name, default=attr_val)
 
         return type.__new__(cls, name, bases, dict(namespace))
 
 
 class _Setting:
 
-    def __init__(self, name: str, default: Any):
+    def __init__(self, name: str, *, default: Any):
         self.name = name
         self.default = default
 
