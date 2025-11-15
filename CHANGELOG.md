@@ -1,0 +1,42 @@
+# envbox changelog
+
+### v1.3.0 [2022-06-08]
+* ++ 'read_envfile()' now supports Path objects.
+* ++ Implemented support for multiline values in .env files.
+
+
+### v1.2.0 [2020-05-02]
+* !! Dropped support for Py 2.
+* ** Added QA for Py 3.8.
+* ** Dropped support for Py 3.5.
+
+
+### v1.1.0
+* !! Dropped QA for Python 2.
+* ++ Improved 'import_by_environment' no accepts optional 'package_name' argument.
+
+
+### v1.0.0
+* !! Dropped QA for Python 3.4.
+* ** Dropped support for py<3.4.
+* ** No functional changes. Celebrating 1.0.0.
+
+
+### v0.4.0
+* ++ Added per-thread settings container SettingsBase.
+
+
+### v0.3.0
+* ++ CLI. Added 'show' command.
+* ++ Added 'dev', 'test', 'stage', 'prod' aliases.
+* ++ Environment initializer now accepts 'name' and  'type_cast' arguments.
+* ++ Added support for .env files (see #1).
+* ++ set() and setmany() now accept 'overwrite' argument.
+
+
+### v0.2.0
+* ++ Introduced 'import_by_environment()' function.
+
+
+### v0.1.0
+* ++ Basic functionality.

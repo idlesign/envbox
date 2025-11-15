@@ -1,0 +1,92 @@
+[project]
+name = "envbox"
+dynamic = ["version"]
+description = "Detect environment type and work within."
+authors = [
+    { name = "Igor Starikov", email = "idlesign@yandex.ru" }
+]
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+keywords = ["backup", "webinars"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/idlesign/envbox"
+Documentation = "https://envbox.readthedocs.io/"
+
+[project.scripts]
+envbox = "envbox.cli:main"
+
+[project.optional-dependencies]
+cli = [
+  "click>=2.0.0",
+]
+
+[dependency-groups]
+dev = [
+    {include-group = "docs"},
+    {include-group = "linters"},
+    {include-group = "tests"},
+]
+docs = [
+    "mkdocs-material",
+    "mkdocs-navsorted-plugin",
+    "mkdocs-apidescribed-plugin",
+]
+linters = [
+#    "ruff",
+]
+tests = [
+    "pytest",
+    "pytest-datafixtures",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/envbox/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/envbox"]
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+source = [
+    "src/",
+]
+omit = [
+    "*/cli.py",
+]
+
+[tool.coverage.report]
+fail_under = 99.00
+exclude_also = [
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.tox]
+skip_missing_interpreters = true
+env_list = [
+  "py310",
+  "py311",
+  "py312",
+  "py313",
+]
+
+[tool.tox.env_run_base]
+dependency_groups = ["tests"]
+commands = [
+  ["pytest", { replace = "posargs", default = ["tests"], extend = true }],
+]
