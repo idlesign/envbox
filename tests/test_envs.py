@@ -49,6 +49,8 @@ def test_set_get():
     assert env.get('one') == '2'
     assert env.get_casted('one') == 2
 
+    assert env.get('two', '3') == '3'
+
     env.one = 3
     assert env.one == '3'
 

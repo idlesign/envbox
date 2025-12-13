@@ -147,7 +147,7 @@ class Environment:
         for key in keys:
             del env[f'{prefix}{key}']
 
-    def get(self, key: str, *, default: Any = None, type_cast: bool | None = None) -> Any:
+    def get(self, key: str, default: Any = None, *, type_cast: bool | None = None) -> Any:
         """Get environment variable value.
 
         :param key:
@@ -167,7 +167,7 @@ class Environment:
 
         return result
 
-    def get_casted(self, key: str, *, default: Any = None) -> Any:
+    def get_casted(self, key: str, default: Any = None) -> Any:
         """The same as `get` but tries to cast values into Python natives."""
         return self.get(key, default=default, type_cast=True)
 
