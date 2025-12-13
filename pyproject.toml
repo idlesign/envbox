@@ -9,7 +9,7 @@ readme = "README.md"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
-keywords = ["backup", "webinars"]
+keywords = ["environ", "envfile", "dotenv"]
 dependencies = []
 
 [project.urls]
