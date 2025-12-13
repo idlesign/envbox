@@ -1,6 +1,6 @@
 # envbox changelog
 
-### Unreleased
+### v2.0.1 [2025-12-13]
 * ** Fixed env.get() user experience regression (close #3).
 
 ### v2.0.0 [2025-11-15]
