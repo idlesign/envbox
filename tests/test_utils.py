@@ -10,6 +10,23 @@ def test_cast_type():
     assert cast_type('True') is True
 
 
+def test_read_envfile_ignores_lines_without_equals(tmp_path):
+
+    fpath = tmp_path / '.env'
+    fpath.write_text(
+        'ENVBOXTST_VALID=1\n'
+        'this line has no equals sign\n'
+        '\n'
+        '# a comment\n'
+        'ANOTHER VALID LINE WITHOUT EQUALS\n'
+        'ENVBOXTST_OTHER=2\n'
+    )
+
+    entries = read_envfile(fpath)
+
+    assert entries == {'ENVBOXTST_VALID': '1', 'ENVBOXTST_OTHER': '2'}
+
+
 def test_read_envfile(datafix_dir):
 
     env = Environment()
