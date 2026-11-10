@@ -73,6 +73,12 @@ def read_envfile(fpath: str | Path) -> dict:
             idx += 1
             continue
 
+        if '=' not in line:
+            # Not a KEY=VALUE definition; ignore it instead of
+            # storing the whole line as a variable with an empty value.
+            idx += 1
+            continue
+
         key, _, val = line.partition('=')
         key = key.strip()
 
