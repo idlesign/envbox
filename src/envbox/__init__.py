@@ -3,7 +3,7 @@ from .envs import DEVELOPMENT, PRODUCTION, STAGING, TESTING, Environment, regist
 from .settings import SettingsBase
 from .utils import read_envfile
 
-VERSION = '2.0.1'
+VERSION = '2.1.0'
 
 __all__ = [
     'DEVELOPMENT',

@@ -1,6 +1,6 @@
 # envbox changelog
 
-### Unreleased
+### v2.1.0 [2026-11-18]
 * ++ CLI 'show' command now masks sensitive values; '--secrets' flag added to unmask.
 * ++ Settings container now supports type annotation hints to cast environment values.
 * ** .env lines without '=' are now ignored instead of being stored as empty variables.
