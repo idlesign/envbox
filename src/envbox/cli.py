@@ -20,7 +20,7 @@ def probe():
 
 @entry_point.command()
 @click.option("--secrets", is_flag=True, help="Show sensitive values without masking.")
-def show(secrets: bool):
+def show(*, secrets: bool):
     """Show (print out) current environment variables.
 
     Sensitive values (passwords, tokens, etc.) are masked

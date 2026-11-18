@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 import pytest
 
 from envbox import get_environment
@@ -43,7 +45,7 @@ def test_typed_settings(monkeypatch):
         DEBUG: bool = False
         TITLE: str = "mine"
         ALIASED: "int" = 7
-        ITEMS: list[str] = []
+        ITEMS: ClassVar[list[str]] = []
         LEGACY = "untouched"
 
     Settings = _Typed()
@@ -103,9 +105,9 @@ def test_typed_settings_invalid(monkeypatch):
     monkeypatch.setenv("COUNT", "not a number")
 
     with pytest.raises(ValueError, match="Unable to cast COUNT"):
-        Settings.COUNT
+        _ = Settings.COUNT
 
     monkeypatch.setenv("DEBUG", "maybe")
 
     with pytest.raises(ValueError, match="Unable to cast DEBUG"):
-        Settings.DEBUG
+        _ = Settings.DEBUG
