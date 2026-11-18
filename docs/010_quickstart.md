@@ -92,6 +92,21 @@ if Settings.ANOTHER:
 
 Accessing any setting which was not set in the session, will lead to appropriate environment variable probing.
 
+Type annotation hints (if any) are used to cast values read from environment
+into the given types:
+
+```python
+class _Settings(SettingsBase):
+
+    THREADS: int = 1
+    DEBUG: bool = False
+
+Settings = _Settings()
+
+# Given THREADS=4 env variable is set:
+Settings.THREADS  # 4 (int)
+```
+
 ## Environment aliases
 
 ```python

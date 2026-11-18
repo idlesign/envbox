@@ -2,6 +2,7 @@
 
 ### Unreleased
 * ++ CLI 'show' command now masks sensitive values; '--secrets' flag added to unmask.
+* ++ Settings container now supports type annotation hints to cast environment values.
 
 ### v2.0.1 [2025-12-13]
 * ** Fixed env.get() user experience regression (close #3).
