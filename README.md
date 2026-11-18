@@ -92,9 +92,14 @@ $ envbox probe
 
 $ envbox show
 # >> [...]
+# >> MY_API_TOKEN = ******
 # >> SHELL = /bin/bash
 # >> [...]
 ```
+
+!!! note
+    `envbox show` masks sensitive values (passwords, tokens, keys, secrets).
+    Use `--secrets` flag to show them unmasked.
 
 !!! note
     `envbox` CLI requires `click` package available.

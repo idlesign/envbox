@@ -6,6 +6,24 @@ from typing import Any
 
 RE_TPL_VAR = re.compile(r'(\${([^}]+)})')
 
+MASKED_VALUE = "******"
+"""Value to show instead of an actual sensitive variable value."""
+
+SECRET_MARKERS = ("KEY", "PASSWORD", "SECRET", "TOKEN")
+"""Markers to consider a variable name to be sensitive."""
+
+
+def is_secret_key(key: str) -> bool:
+    """Returns True if the given variable name seems to be
+    a sensitive one (e.g. containing a marker from ``SECRET_MARKERS``).
+
+    :param key:
+
+    """
+    key = key.upper()
+
+    return any(marker in key for marker in SECRET_MARKERS)
+
 
 def cast_type(value: str) -> Any:
     """Try to cast value into Python native type.

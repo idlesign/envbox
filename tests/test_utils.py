@@ -1,5 +1,5 @@
 from envbox import Environment
-from envbox.utils import cast_type, read_envfile
+from envbox.utils import cast_type, is_secret_key, read_envfile
 
 
 def test_cast_type():
@@ -57,3 +57,14 @@ def test_read_envfile(datafix_dir):
     assert entries['ENVBOXTST_OTHER'] == 'mine this $VAL enim'
 
     del env['ENVBOXTST_CHANGE']
+
+
+def test_is_secret_key():
+
+    assert is_secret_key("MY_PASSWORD")
+    assert is_secret_key("api_token")
+    assert is_secret_key("PGPKEY")
+    assert is_secret_key("client_secret")
+
+    assert not is_secret_key("HOME")
+    assert not is_secret_key("PATH")
